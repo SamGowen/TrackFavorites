@@ -43,6 +43,16 @@
             font-size: 1.5rem;
             font-weight: bold;
             text-decoration: none;
+            /* Added for smooth logo integration */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* New style to control logo size */
+        .logo img {
+            height: 40px;
+            width: auto;
         }
 
         nav ul {
@@ -162,7 +172,10 @@
 <body>
 
     <header>
-        <a href="#" class="logo">PriceDrop App</a>
+        <a href="#" class="logo">
+            <img src="tflogo.png" alt="Logo">
+            PriceDrop App
+        </a>
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
