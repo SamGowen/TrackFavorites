@@ -3,219 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PriceDrop - Smart Wishlist Tracker</title>
-    <style>
-        /* --- CSS Styles --- */
-        :root {
-            --primary-blue: #2563eb; /* Modern Royal Blue */
-            --dark-blue: #1e40af;
-            --white: #ffffff;
-            --light-gray: #f3f4f6;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--white);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Navigation Bar */
-        header {
-            background-color: var(--primary-blue);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .logo {
-            color: var(--white);
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            /* Added for smooth logo integration */
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* New style to control logo size */
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        nav a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
-        }
-
-        nav a:hover {
-            opacity: 0.8;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            color: var(--primary-blue);
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-blue);
-            color: var(--white);
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: var(--dark-blue);
-        }
-
-        /* How it Works Section */
-        .features {
-            background-color: var(--light-gray);
-            padding: 4rem 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--text-dark);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .card {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .icon-circle {
-            width: 60px;
-            height: 60px;
-            background-color: #dbeafe; /* Light blue circle */
-            color: var(--primary-blue);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem auto;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .card h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary-blue);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-    </style>
+    <title>PriceDrop - Never Miss A Deal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <a href="#" class="logo">
-            <img src="tflogo.png" alt="Logo">
-            PriceDrop App
-        </a>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Wishlist</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </nav>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-tag"></i> PriceDrop
+        </div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How it Works</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+        </ul>
+        <a href="#" class="btn-download">Download</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Never Miss A Deal</h1>
+            <p>Track Wishlist Prices. Get Instant Alerts.</p>
+        </div>
+        <div class="hero-image">
+            <img src="https://via.placeholder.com/400x800/ffffff/888888?text=App+Screenshot" alt="PriceDrop App Interface" class="phone-mockup">
+        </div>
     </header>
 
-    <section class="hero">
-        <h1>Never Overpay Again</h1>
-        <p>Save items to your wishlist. We track the prices 24/7. When the price drops, you get an instant notification.</p>
-        <a href="#" class="btn">Download App</a>
-    </section>
-
-    <section class="features">
-        <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="icon-circle">1</div>
-                    <h3>Create Wishlist</h3>
-                    <p>Browse your favorite stores and save items directly to your centralized app wishlist.</p>
+    <section class="how-it-works" id="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-box-open"></i>
                 </div>
-                <div class="card">
-                    <div class="icon-circle">2</div>
-                    <h3>We Track It</h3>
-                    <p>Our smart bot monitors the prices of your saved items around the clock.</p>
+                <h3>1. Save Items</h3>
+            </div>
+            <div class="step">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
                 </div>
-                <div class="card">
-                    <div class="icon-circle">3</div>
-                    <h3>Get Notified</h3>
-                    <p>Receive an instant alert the moment a price drops so you can grab the deal.</p>
+                <h3>2. We Track</h3>
+            </div>
+            <div class="step">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-bell"></i>
                 </div>
+                <h3>3. Get Notified</h3>
             </div>
         </div>
     </section>
 
+    <section class="stores">
+        <h2>Featured Stores</h2>
+        <div class="store-grid">
+            <div class="store-card">Amazon</div>
+            <div class="store-card">Best Buy</div>
+            <div class="store-card">Target</div>
+            <div class="store-card">Walmart</div>
+            <div class="store-card">eBay</div>
+            <div class="store-card">Nike</div>
+            <div class="store-card">Apple</div>
+            <div class="store-card">Steam</div>
+        </div>
+        
+        <div class="cta-container">
+            <button class="btn-green">Download Now</button>
+        </div>
+    </section>
+
     <footer>
-        <p>&copy; 2023 PriceDrop App. All rights reserved.</p>
+        <p>&copy; 2024 PriceDrop. All rights reserved.</p>
     </footer>
 
 </body>
