@@ -3,80 +3,528 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PriceDrop - Never Miss A Deal</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>PriceDrop - Track Prices & Save</title>
+    
+    <!-- Fonts: Inter for that clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons: FontAwesome for UI elements -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-bg: #89a4d6; /* Fallback */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-dark: #1e293b;
+            --text-light: #475569;
+            --accent-green: #4ade80;
+            --accent-green-dark: #22c55e;
+            --nav-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #a6c0fe 0%, #f68084 100%); /* Just in case image fails */
+            background: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2000&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            /* Overlay to match the blue tint of your image */
+            background-image: linear-gradient(160deg, #334e6e 0%, #7b9ccb 50%, #8baed6 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Decorative blurry spheres to match the background aesthetics */
+        .blur-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        .sphere-1 { width: 300px; height: 300px; background: #a5f3fc; top: 10%; left: 10%; }
+        .sphere-2 { width: 400px; height: 400px; background: #ddd6fe; bottom: 10%; right: 0%; }
+        .sphere-3 { width: 200px; height: 200px; background: #bbf7d0; top: 40%; left: 40%; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(23, 37, 84, 0.95); /* Dark blue header like image */
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            transform: rotate(-45deg); /* Tag icon tilt */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .btn-nav-download {
+            background: #94a3b8;
+            color: #0f172a;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-nav-download:hover {
+            background: white;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 8% 20px 8%;
+            min-height: 70vh;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: #334155;
+            margin-bottom: 30px;
+        }
+
+        .hero-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        /* The Phone CSS Mockup (No external 3D file needed) */
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: #0f172a;
+            border-radius: 40px;
+            border: 12px solid #1e293b;
+            position: relative;
+            transform: rotateY(-15deg) rotateX(10deg) rotateZ(-5deg); /* The 3D tilt */
+            box-shadow: 
+                20px 20px 60px rgba(0,0,0,0.4),
+                -5px -5px 20px rgba(255,255,255,0.1) inset;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+
+        .phone-mockup:hover {
+            transform: rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+        }
+
+        /* Notch */
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 30px;
+            background: #1e293b;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+
+        /* Screen Content */
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #60a5fa 0%, #e0f2fe 100%);
+            padding: 40px 15px;
+            position: relative;
+        }
+
+        /* Simulated App Content */
+        .app-alert {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 700;
+            color: #2563eb;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            animation: popIn 0.5s ease-out forwards;
+        }
+
+        .app-item-list {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .app-item {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .app-item-left { display: flex; gap: 10px; align-items: center; }
+        .app-item-img { width: 30px; height: 30px; background: #eee; border-radius: 5px; }
+        .app-item-text { font-size: 0.7rem; color: #64748b; }
+        .app-item-price { font-size: 0.8rem; font-weight: bold; color: #059669; }
+        .old-price { text-decoration: line-through; color: #ef4444; font-size: 0.6rem; margin-right: 5px; }
+
+        /* --- HOW IT WORKS --- */
+        .how-it-works {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        .how-it-works h2 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .step-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15); /* Glassy circle */
+            border: 2px solid rgba(255,255,255,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #1e293b;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s;
+        }
+
+        .step-card:hover .icon-circle {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .step-text {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* --- FEATURED STORES --- */
+        .featured-stores {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .featured-stores h2 {
+            color: white;
+            margin-bottom: 40px;
+            font-size: 1.5rem;
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .store-card {
+            background: white;
+            border-radius: 12px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .store-card img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+
+        .store-card:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* --- CTA BUTTON --- */
+        .cta-wrapper {
+            margin-top: 50px;
+            text-align: center;
+            padding-bottom: 60px;
+        }
+
+        .btn-green-main {
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-green-main:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Animations */
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar { padding: 15px; }
+            .nav-links { display: none; } /* Hide links on mobile for simplicity */
+            .hero { flex-direction: column; text-align: center; padding-top: 30px; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-image-container { margin-top: 50px; }
+            .phone-mockup { width: 260px; height: 500px; }
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar">
+    <!-- Background Elements -->
+    <div class="blur-sphere sphere-1"></div>
+    <div class="blur-sphere sphere-2"></div>
+    <div class="blur-sphere sphere-3"></div>
+
+    <!-- Navigation -->
+    <nav>
         <div class="logo">
-            <i class="fa-solid fa-tag"></i> PriceDrop
+            <i class="fa-solid fa-tags"></i>
+            <span>PriceDrop</span>
         </div>
         <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#how-it-works">How it Works</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">How it Works</a></li>
+            <li><a href="#">Testimonials</a></li>
         </ul>
-        <a href="#" class="btn-download">Download</a>
+        <a href="#" class="btn-nav-download">Download</a>
     </nav>
 
-    <header class="hero">
-        <div class="hero-content">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
             <h1>Never Miss A Deal</h1>
             <p>Track Wishlist Prices. Get Instant Alerts.</p>
         </div>
-        <div class="hero-image">
-            <img src="https://via.placeholder.com/400x800/ffffff/888888?text=App+Screenshot" alt="PriceDrop App Interface" class="phone-mockup">
-        </div>
-    </header>
 
-    <section class="how-it-works" id="how-it-works">
+        <div class="hero-image-container">
+            <!-- CSS Only Phone Mockup to look like the 3D image -->
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="app-alert">PRICE DROPPED! 📉</div>
+                    
+                    <div class="app-item-list">
+                        <!-- Simulated Items inside the phone -->
+                        <div class="app-item">
+                            <div class="app-item-left">
+                                <div class="app-item-img" style="background:orange;"></div>
+                                <div>
+                                    <div style="font-weight:bold; font-size:0.8rem;">Adidas Ultraboost</div>
+                                    <div class="app-item-text">Amazon</div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="old-price">$180</span>
+                                <span class="app-item-price">$120</span>
+                            </div>
+                        </div>
+
+                        <div class="app-item">
+                            <div class="app-item-left">
+                                <div class="app-item-img" style="background:red;"></div>
+                                <div>
+                                    <div style="font-weight:bold; font-size:0.8rem;">Sony Headphones</div>
+                                    <div class="app-item-text">Target</div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="old-price">$350</span>
+                                <span class="app-item-price">$299</span>
+                            </div>
+                        </div>
+
+                        <div class="app-item">
+                            <div class="app-item-left">
+                                <div class="app-item-img" style="background:blue;"></div>
+                                <div>
+                                    <div style="font-weight:bold; font-size:0.8rem;">MacBook Air</div>
+                                    <div class="app-item-text">BestBuy</div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="old-price">$999</span>
+                                <span class="app-item-price">$849</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating graphic elements -->
+                        <i class="fa-solid fa-cart-shopping" style="font-size: 4rem; color: rgba(255,255,255,0.5); position: absolute; bottom: 50px; right: 20px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
         <h2>How It Works</h2>
         <div class="steps-container">
-            <div class="step">
+            <div class="step-card">
                 <div class="icon-circle">
-                    <i class="fa-solid fa-box-open"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
-                <h3>1. Save Items</h3>
+                <div class="step-text">1. Save Items</div>
             </div>
-            <div class="step">
+            <div class="step-card">
                 <div class="icon-circle">
-                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                    <i class="fa-solid fa-clock-rotate-left"></i>
                 </div>
-                <h3>2. We Track</h3>
+                <div class="step-text">2. We Track</div>
             </div>
-            <div class="step">
+            <div class="step-card">
                 <div class="icon-circle">
-                    <i class="fa-solid fa-bell"></i>
+                    <i class="fa-regular fa-bell"></i>
                 </div>
-                <h3>3. Get Notified</h3>
+                <div class="step-text">3. Get Notified</div>
             </div>
         </div>
     </section>
 
-    <section class="stores">
+    <!-- Featured Stores (Using Clearbit API for Logos) -->
+    <section class="featured-stores">
         <h2>Featured Stores</h2>
         <div class="store-grid">
-            <div class="store-card">Amazon</div>
-            <div class="store-card">Best Buy</div>
-            <div class="store-card">Target</div>
-            <div class="store-card">Walmart</div>
-            <div class="store-card">eBay</div>
-            <div class="store-card">Nike</div>
-            <div class="store-card">Apple</div>
-            <div class="store-card">Steam</div>
+            <div class="store-card" title="Amazon">
+                <img src="https://logo.clearbit.com/amazon.com" alt="Amazon">
+            </div>
+            <div class="store-card" title="Best Buy">
+                <img src="https://logo.clearbit.com/bestbuy.com" alt="Best Buy">
+            </div>
+            <div class="store-card" title="Target">
+                <img src="https://logo.clearbit.com/target.com" alt="Target">
+            </div>
+            <div class="store-card" title="Walmart">
+                <img src="https://logo.clearbit.com/walmart.com" alt="Walmart">
+            </div>
+            <div class="store-card" title="eBay">
+                <img src="https://logo.clearbit.com/ebay.com" alt="eBay">
+            </div>
+            <div class="store-card" title="Nike">
+                <img src="https://logo.clearbit.com/nike.com" alt="Nike">
+            </div>
+            <div class="store-card" title="Steam">
+                <img src="https://logo.clearbit.com/steampowered.com" alt="Steam">
+            </div>
+            <div class="store-card" title="Apple">
+                <img src="https://logo.clearbit.com/apple.com" alt="Apple">
+            </div>
         </div>
-        
-        <div class="cta-container">
-            <button class="btn-green">Download Now</button>
+
+        <div class="cta-wrapper">
+            <button class="btn-green-main">Download Now</button>
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2024 PriceDrop. All rights reserved.</p>
-    </footer>
 
 </body>
 </html>
